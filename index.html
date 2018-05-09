@@ -268,16 +268,19 @@
                     </section>
 
                     <section>
-                        <p>
+                        <p class="fragment">
                             Better: have <code>setup.py</code> copy in README, version information from
                             <code>_version.py</code> file in your package, and include dependency information.
                         </p>
-                        <p>
+                        <p class="fragment">
                             Add a <code>setup.cfg</code> file with some additional configuration options
                         </p>
-                        <p>
+                        <p class="fragment">
                             Add a <a href="https://keepachangelog.com/"<code>CHANGELOG</code> file</a> to describe how your
                             code changes with each version.
+                        </p>
+                        <p class="fragment">
+                            Add a <code>MANIFEST.in</code> file to tell PyPI to bring other files.
                         </p>
                     </section>
 
@@ -468,6 +471,22 @@
                         </code></pre>
                         </div>
                     </section>
+                    <section>
+                        <p>
+                            contents of MANIFEST.in:
+                        </p>
+                        <div style="font-size:20px">
+                        <pre><code data-trim class="markdown">
+
+                            include LICENSE
+                            include AUTHORS.md
+                            include CHANGELOG.md
+                            include CONTRIBUTING.md
+                            include compphys/tests/*.txt
+                        </code></pre>
+                        </div>
+                    </section>
+
 
                     <section>
                         <ol>
