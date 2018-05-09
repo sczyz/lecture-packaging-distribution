@@ -142,10 +142,47 @@
                     </section>
 
                     <section>
-                        <pre><code data-trim>
+                        <h2>Package management options</h2>
+                        <br>
+                        <ul>
+                            <li class="fragment">
+                                Source-based: link to code. Good for dynamic languages, less for compiled.
+                            </li>
+                            <li class="fragment">
+                                Binary: popular for both dynamic and compiled. Create packages for various architectures/systems.
+                            </li>
+                            <li class="fragment">
+                                Virtualization: package both software and environment.
+                            </li>
+                        </ul>
+                    </section>
+                </section>
+
+                <section>
+                    <section>
+                        <h2> Python: <code>pip</code> and PyPI </h2>
+                        <br>
+                        <ul>
+                            <li class="fragment">
+                                <code>pip</code> can be used to install Python packages from source or from <a href="https://pypi.org">PyPI</a>
+                            </li>
+                            <li class="fragment">
+                                We will tell <code>pip</code> how to install your package by creating a <code>setup.py</code>
+                                file for the <code>setuptools</code> package to use.
+                            </li>
+                            <li class="fragment">
+                                <code>setup.py</code> goes at the same level as your package's source code directory.
+                            </li>
+                        </ul>
+                    </section>
+
+                    <section>
+                        <div style="font-size:35px">
+                        <pre><code data-trim class="text">
                             setup.py
                             /compphys
                               |- __init__.py
+                              |- _version.py
                               |- constants.py
                               |- physics.py
                               /more
@@ -160,11 +197,369 @@
                                 |- test_morephysics.py
                             ...
                         </code></pre>
+                        </div>
                     </section>
 
+                    <section>
+                        <p>
+                            <code>setup.py</code> imports and calls <code>setup()</code> function, which can both install
+                            a package locally and make/upload to PyPI
+                        </p>
+                        <br>
+                        <ul>
+                            <li class="fragment">
+                                <code>pip</code> can be used to install Python packages from source or from <a href="https://pypi.org">PyPI</a>
+                            </li>
+                            <li class="fragment">
+                                We will tell <code>pip</code> how to install your package by creating a <code>setup.py</code>
+                                file for the <code>setuptools</code> package to use.
+                            </li>
+                            <li class="fragment">
+                                <code>setup.py</code> goes at the same level as your package's source code directory.
+                            </li>
+                        </ul>
+                    </section>
+
+                    <section>
+                        <div style="font-size:25px">
+                        <pre><code data-trim class="python stretch">
+                        try:
+                            from setuptools import setup, find_packages
+                        except ImportError:
+                            from distutils.core import setup
+
+                        setup(
+                            name='compphys',
+                            version='0.1.0',
+                            description='Effective Computation in Physics',
+                            author='Anthony Scopatz and Kathryn D. Huff',
+                            author_email='koolkatz@gmail.com',
+                            url='http://physics.codes',
+                            classifiers=[
+                                'License :: OSI Approved :: BSD License',
+                                'Intended Audience :: Developers',
+                                'Intended Audience :: Science/Research',
+                                'Natural Language :: English',
+                                'Programming Language :: Python :: 3',
+                            ],
+                            license='BSD-3-Clause',
+                            python_requires='>=3',
+                            zip_safe=False,
+                            packages=['compphys', 'compphys.more', 'compphys.tests'],
+                            # or find automatically:
+                            package=find_packages(),
+                            package_dir={
+                                'compphys': 'compphys',
+                                'compphys.more': 'compphys/more',
+                                'compphys.tests': 'compphys/tests',
+                                },
+                            include_package_data=True,
+
+                            # or you can specify explicitly:
+                            package_data={
+                                'compphys': ['assets/*.txt']
+                                },
+                        )
+
+                        if __name__ == "__main__":
+                            setup()
+                        </code></pre>
+                        </div>
+                    </section>
+
+                    <section>
+                        <p class="fragment">
+                            Install the package from source: <code>python setup.py install</code>
+                        </p>
+                        <p class="fragment">
+                            Create a source-only ZIP file: <code>python setup.py sdist</code>
+                        </p>
+                        <p class="fragment">
+                            Create an <a href="https://pypi.org/account/register/">account on PyPI</a>
+                        </p>
+                        <p class="fragment">
+                            Upload: <code>twine upload dist/*</code>
+                        </p>
+                        <p class="fragment">
+                            Subsequent versions: increase the version number (tip: use Semantic Versioning)
+                        </p>
+                    </section>
+                    <section>
+                        <p>
+                            <a href="https://semver.org">Semantic Versioning</a>: Given a version number MAJOR.MINOR.PATCH, increment the:
+                        </p>
+                        <ul class="fragment">
+                            <li>MAJOR version when you make incompatible API changes,</li>
+                            <li>MINOR version when you add functionality in a backwards-compatible manner, and</li>
+                            <li>PATCH version when you make backwards-compatible bug fixes.</li>
+                        </ul>
+                        <p class="fragment">
+                            To start: set initial development release at 0.1.0 and increment minor version for subsequent releases.
+                        </p>
+                    </section>
+                </section>
+
+                <section>
+                    <section>
+                        <h3> <code>conda</code> </h3>
+                        <br>
+                        <ul>
+                            <li class="fragment">
+                                <code>pip</code> is great for pure Python source codes, but many research codes use multiple languages
+                                including compiled code.
+                            </li>
+                            <li class="fragment">
+                                <a href="https://conda.io/docs/">Conda:</a> cross-platform binary manager designed for deploying research software.
+                            </li>
+                            <li class="fragment">
+                                Handles multilanguage and non-Python code, runs on all operating systems, and runs in user's home
+                                space&mdash;it does not try to install on the system.
+                            </li>
+                        </ul>
+                    </section>
+                    <section>
+                        <h3> <code>conda</code> </h3>
+                        <br>
+                        <ul>
+                            <li class="fragment">
+                                Fastest way to install: <a href="https://conda.io/miniconda.html">Miniconda distribution</a>
+                            </li>
+                            <li class="fragment">
+                                By default, searches <a href="https://anaconda.org">Anaconda Cloud</a>, but you can add additional
+                                channels to search for packages (even your own!)
+                            </li>
+                            <li class="fragment">
+                                Recommendation: add conda-forge channel via <code>conda config --add channels conda-forge</code>
+                            </li>
+                        </ul>
+                    </section>
+                    <section>
+                        <h3> Build a conda package (on your system) </h3>
+                        <br>
+                        <ol>
+                            <li class="fragment">
+                                Create an <a href="https://docs.anaconda.com/anaconda-cloud/user-guide/tasks/work-with-accounts.html#cloud-accounts-create">Anaconda cloud</a>
+                                account, install the client, and login:
+                                <pre><code data-trim>
+                                    conda install anaconda-client
+                                    anaconda login
+                                </code></pre>
+                            </li>
+                            <li class="fragment"> Install <code>conda-build</code>:
+                                <pre><code data-trim>
+                                    conda install conda-build
+                                    conda config --set anaconda_upload no
+                                </code></pre>
+                            </li>
+                            <li class="fragment">
+                                Create a new directory <code>conda.recipe</code> and create the file <code>meta.yaml</code>:
+                            </li>
+                        </ol>
+                    </section>
+                    <section>
+                        <div style="font-size:20px">
+                        <pre><code data-trim class="yaml stretch">
+                        {% set data = load_setup_py_data() %}
+
+                        package:
+                          name: compphys
+                          version: {{ data['version'] }}
+
+                        source:
+                          path: ..
+
+                        build:
+                          number: 0
+                          script: python setup.py install --single-version-externally-managed --record=record.txt
+
+                        requirements:
+                          build:
+                            - python >= 3
+                            - setuptools
+
+                          run:
+                            - python
+                            - numpy
+
+                        test:
+                          imports:
+                            - compphys
+
+                          requires:
+                            - pytest
+                            - pytest-cov
+
+                          commands:
+                            - pytest -vv --pyargs compphys
+
+                        about:
+                          home: data['url']
+                          license: BSD 3-Clause
+                          license_file: LICENSE
+                          license_family: BSD
+
+                          summary: data['description']
+                          description: data['long_description']
+                          dev_url: data['url']
+                        </code></pre>
+                        </div>
+                    </section>
+                    <section>
+                        <ol start="4">
+                            <li class="fragment">
+                                Upload your package to Anaconda cloud:
+                                <pre><code data-trim>
+                                    anaconda upload $HOME/miniconda/conda-bld/*/compphys*.tar.bz2
+                                </code></pre>
+                            </li>
+                            <li class="fragment">
+                                Go see your package at <a href="https://anaconda.org/[username]/compphys"><code>https://anaconda.org/[username]/compphys</code></a>!
+                            </li>
+                            <li class="fragment">
+                                Others can install your package using <code>conda install -c [username] compphys</code>
+                            </li>
+                        </ol>
+                    </section>
+                </section>
+
+                <section>
+                    <p>
+                        Now you have three ways of making your software installable by people:
+                    </p>
+                    <ul>
+                        <li class="fragment">
+                            Create <code>setup.py</code> to allow others to download your repo and install manually (at minimum, do this).
+                        </li>
+                        <li class="fragment">
+                            Upload your package to PyPI, making it easily installable using <code>pip</code>.
+                        </li>
+                        <li class="fragment">
+                            Create and upload a <code>conda</code> package, easily installable via your personal channel.
+                        </li>
+                    </ul>
+                </section>
+
+                <section>
+                    <section>
+                        <h3>Advanced deploying</h3>
+                        <p class="fragment">
+                            Although at this point it may be sufficient to manually build and deploy packages for pip and conda,
+                            you can also use Travis CI to do this for you.
+                        </p>
+
+                        <img class="fragment" src="https://media.giphy.com/media/ChzfTLSi47FYc/giphy.gif" height="300" alt="Matrix Whoa gif">
+                    </section>
+
+                    <section>
+                        <p class="fragment">
+                            Main idea: when you tag a release using Git (e.g., <code>git tag -a v0.1.1 -m 'v0.1.1'</code>),
+                            Travis CI will run your tests, and if successful build and deploy to PyPI and/or Anaconda.
+                        </p>
+
+                        <img class="fragment" src="https://media.giphy.com/media/CruIeCnUaWqJy/giphy.gif" height="300" alt="Anna Kendrick I know gif">
+                    </section>
+
+                    <section>
+                        <div style="font-size:14px">
+                        <pre><code data-trim class="yaml stretch">
+                            sudo: false
+                            env:
+                              global:
+                                - secure: "..."
+
+                            language: generic
+
+                            matrix:
+                              include:
+                                - os: linux
+                                  env: PYTHON="3.5"
+
+                                - os: linux
+                                  env: PYTHON="3.6"
+
+                                - os: osx
+                                  env: PYTHON="3.5"
+
+                                - os: osx
+                                  env: PYTHON="3.6"
+
+                            install:
+                                - if [[ "$TRAVIS_OS_NAME" == "linux" ]]; then
+                                    wget https://repo.continuum.io/miniconda/Miniconda3-latest-Linux-x86_64.sh -O miniconda.sh;
+                                  elif [[ "$TRAVIS_OS_NAME" == "osx" ]]; then
+                                    wget https://repo.continuum.io/miniconda/Miniconda3-latest-MacOSX-x86_64.sh -O miniconda.sh;
+                                  fi
+                                - bash miniconda.sh -b -p $HOME/miniconda
+                                - rm miniconda.sh
+                                - source $HOME/miniconda/etc/profile.d/conda.sh && conda activate
+                                - conda config --set always_yes yes --set changeps1 no
+                                - conda update -q conda
+                                - conda update -q --all
+                                - conda config --append channels conda-forge
+                                - if [[ -z "$TRAVIS_TAG" ]]; then
+                                    sed -i -e "s/\${PYTHON}/"${PYTHON}"/" test-environment.yaml;
+                                    conda env create -qf test-environment.yaml;
+                                    conda activate py${PYTHON};
+                                  else
+                                    if [[ "$PYTHON" == "3.6" && "$TRAVIS_OS_NAME" == "linux" ]]; then
+                                      conda env update -qn base -f build-environment.yaml;
+                                    fi
+                                  fi
+                                  # Useful for debugging any issues with conda
+                                - conda info -a
+                                - conda list
+
+                            # command to run tests
+                            script:
+                              - set -e
+                              - if [[ -z "$TRAVIS_TAG" ]]; then
+                                  pytest -vv --cov=./;
+                                fi
+                              - set +e
+
+                            after_success:
+                              - set -e
+                              - if [[ "$TRAVIS_TAG" && "$PYTHON" == "3.6" && "$TRAVIS_OS_NAME" == "linux" ]]; then
+                                  conda build conda.recipe;
+                                  anaconda -t $ANACONDA_TOKEN upload $HOME/miniconda/conda-bld/*/compphys*.tar.bz2;
+                                fi
+                              - set +e
+
+                            deploy:
+                              provider: pypi
+                              user: username
+                              password:
+                                secure: "..."
+                              on:
+                                tags: true
+                                condition: $TRAVIS_OS_NAME == "linux" && $PYTHON == "3.6"
+                              distributions: "sdist bdist_wheel"
+                              skip_upload_docs: true
+                        </code></pre>
+                        </div>
+                    </section>
+                    <section>
+                        <p>Required steps: generate those secure strings for passwords/upload tokens</p>
+                        <br>
+                        <div style="font-size:35px">
+                        <ul>
+                        <li class="fragment">
+                            <strong>Anaconda:</strong> go to your <a href="https://anaconda.org/">Anaconda.org</a> account settings,
+                            and in Access generate an API token. Then, in your <a href="https://travis-ci.org/">Travis CI</a>
+                            account, go to the repo in question, and create an environment variable with the name <code>ANACONDA_TOKEN</code>.
+                            Add the value of the API token you just created. Copy the secure string into <code>meta.yaml</code>.
+                        </li>
+                        <li class="fragment">
+                            <strong><a href="https://docs.travis-ci.com/user/deployment/pypi/">PyPI:</a></strong>
+                            install <a href="https://github.com/travis-ci/travis.rb#installation">Travis CI command line utility</a>, then
+                            use command <code>travis encrypt --add deploy.password</code> to generate the <code>secure</code> string
+                            for <code>meta.yaml</code>.
+                        </li>
+                        </ul>
+                        </div>
+                    </section>
                 </section>
 			</div>
-
 		</div>
 
 		<script src="lib/js/head.min.js"></script>
