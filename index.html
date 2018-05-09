@@ -360,9 +360,20 @@
                     </section>
 
                     <section>
-                        <div style="font-size:30px">
-                        <pre><code data-trim class="python stretch">
-                            # contents of setup.cfg
+                        <h3>Contents of <code>_version.py</code>:</h3>
+                        <br>
+                        <pre><code data-trim class="python">
+                            __version_info__ = (0, 4, 2, 'a1')
+                            __version__ = '.'.join(map(str, __version_info__[:3]))
+                            if len(__version_info__) == 4:
+                                __version__ += __version_info__[-1]
+                        </code></pre>
+                    </section>
+
+                    <section>
+                        <h3>Contents of <code>setup.cfg</code>:</h3>
+                        <br>
+                        <pre><code data-trim class="text">
                             [metadata]
                             license_file = LICENSE
 
@@ -374,10 +385,11 @@
                             filterwarnings =
                                 ignore::ResourceWarning
                         </code></pre>
-                        </div>
                     </section>
 
                     <section>
+                        <h3>Contents of <code>CHANGELOG.md</code>:</h3>
+                        <br>
                         <div style="font-size:20px">
                         <pre><code data-trim class="markdown">
                             # Changelog
@@ -472,19 +484,15 @@
                         </div>
                     </section>
                     <section>
-                        <p>
-                            contents of MANIFEST.in:
-                        </p>
-                        <div style="font-size:20px">
+                        <h3>Contents of <code>MANIFEST.in:</code>:</h3>
+                        <br>
                         <pre><code data-trim class="markdown">
-
                             include LICENSE
                             include AUTHORS.md
                             include CHANGELOG.md
                             include CONTRIBUTING.md
                             include compphys/tests/*.txt
                         </code></pre>
-                        </div>
                     </section>
 
 
