@@ -1,0 +1,35 @@
+Lecture 8- Package Distribution
+
+-Linking to sources is useful for codes that are dynamic (like python) but less so for compiled codes (like fortran)
+    -Compiled codes cause problems due to possibly not having appropriate compilers available on a system-by-system and OS-by-OS basis
+
+-setup.py goes in the top level of your package repo (along with readme and such)
+    -calls a setup function to install your package
+
+-setup.py file includes:
+    -packages: include your package AND your subpackages (ex: radioxenon_ml, radioxenon_ml.read_in, etc)
+    -package=find_packages() automatically finds packages 
+        -can also list out explicit directories via package_dir
+    -include_package_data = True includes all non-python codes
+        -can explicitly list them via package_data
+    -can have setup.py import values for various things such as Readme and version from your readme file ad your __version__.py file
+
+-Changelog file details how your code changes with each version as you get your code to work
+
+-Semantic versioning (major.minor.patch)
+    -major: stops backwards compatibility
+    -minor: minor functionality addition that still allows for backwards compatibility
+    -patch: minor bug fix
+    
+-Conda vs pip
+    -pip: pure python
+    -conda: cross-platform, multilanguage, runs on all OS, runs in user (instead of system), multi-environment (python2 and python3 switch at will)
+
+-Why install instead of running a bunch of files?
+    -it gives the ability to update very easily
+    -it allows for importation and the ability to use anywwhere
+        -think numpy as an example
+        
+-If you tag a version and push it with git, you can get travis to deploy it automatically if the package passes the tests
+    -git tag -a /version/
+    
