@@ -583,7 +583,7 @@
                                 </code></pre>
                             </li>
                             <li class="fragment">
-                                Create a new directory <code>conda.recipe</code> and create the file <code>meta.yaml</code>:
+                                Create a new directory <code>conda.recipe</code> and in it create the file <code>meta.yaml</code>:
                             </li>
                         </ol>
                     </section>
@@ -637,6 +637,9 @@
                     </section>
                     <section>
                         <ol start="4">
+                            <li class="fragment">
+                                Build the package: <code>conda build conda.recipe</code>
+                            </li>
                             <li class="fragment">
                                 Upload your package to Anaconda cloud:
                                 <pre><code data-trim>
